@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Music Service Client — Project 3</title>
+  <style>
+    body { font-family: system-ui, Arial; margin: 20px; max-width:1000px; }
+    .row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+    textarea { width:100%; height:220px; font-family: monospace; }
+    input[type="text"] { width:160px; }
+    button { padding:6px 10px; }
+    h2 { margin-top:24px; }
+    .small { font-size:0.9em; color:#444; }
+    table { border-collapse: collapse; width:100%; margin-top:8px; }
+    td,th { border:1px solid #ddd; padding:6px; text-align:left; }
+  </style>
+</head>
+<body>
+  <h1>Music Service Client — Project 3</h1>
+  <p class="small">Change <code>API_BASE</code> to your service URL if not running on localhost.</p>
+
+  <script>
+    const API_BASE = "http://localhost:8080"; // <<-- change if deployed
+    async function callFetch(path, opts) {
+      const url = API_BASE + path;
+      const res = await fetch(url, opts);
+      if (!res.ok) throw new Error(res.status + ' ' + res.statusText + ' ' + url);
+      const text = await res.text();
+      try { return JSON.parse(text); } catch(e) { return text; }
+    }
+  </script>
+
+  <h2>Artists</h2>
+  <div class="row">
+    <button onclick="getAllArtists()">GET All Artists</button>
+    <input id="artistIdInput" type="text" placeholder="Artist id (e.g. 1)"/>
+    <button onclick="getArtistById()">GET Artist by ID</button>
+  </div>
+
+  <h2>Albums</h2>
+  <div class="row">
+    <button onclick="getAllAlbums()">GET All Albums</button>
+    <input id="albumIdInput" type="text" placeholder="Album id (e.g. 1)"/>
+    <button onclick="getAlbumById()">GET Album by ID</button>
+    <input id="albumsByArtistId" type="text" placeholder="Artist id to filter albums"/>
+    <button onclick="getAlbumsByArtist()">GET Albums by Artist</button>
+  </div>
+
+  <h2>Songs</h2>
+  <div class="row">
+    <button onclick="getAllSongs()">GET All Songs</button>
+    <input id="songIdInput" type="text" placeholder="Song id (e.g. 1)"/>
+    <button onclick="getSongById()">GET Song by ID</button>
+    <input id="songsByAlbumId" type="text" placeholder="Album id to filter songs"/>
+    <button onclick="getSongsByAlbum()">GET Songs by Album</button>
+  </div>
+
+  <h2>Response</h2>
+  <textarea id="output" readonly></textarea>
+
+  <script>
+    const out = document.getElementById('output');
+    function show(v) { out.value = JSON.stringify(v, null, 2); }
+
+    async function getAllArtists() {
+      try { show(await callFetch('/artists')); } catch(e){ show({error: e.message}); }
+    }
+    async function getArtistById() {
+      const id = document.getElementById('artistIdInput').value.trim();
+      if(!id){ alert('enter id'); return; }
+      try { show(await callFetch('/artists/' + id)); } catch(e){ show({error: e.message}); }
+    }
+
+    async function getAllAlbums() {
+      try { show(await callFetch('/albums')); } catch(e){ show({error: e.message}); }
+    }
+    async function getAlbumById() {
+      const id = document.getElementById('albumIdInput').value.trim();
+      if(!id){ alert('enter id'); return; }
+      try { show(await callFetch('/albums/' + id)); } catch(e){ show({error: e.message}); }
+    }
+    async function getAlbumsByArtist() {
+      const id = document.getElementById('albumsByArtistId').value.trim();
+      if(!id){ alert('enter artist id'); return; }
+      // If your service supports a query endpoint, use it; otherwise fetch all and filter client-side:
+      try {
+        // try query endpoint first
+        try {
+          const data = await callFetch('/albums?artistId=' + id);
+          show(data);
+          return;
+        } catch (e) {
+          // fallback: get all and filter
+          const all = await callFetch('/albums');
+          show(all.filter(a => a.artistId == id));
+        }
+      } catch(e){ show({error: e.message}); }
+    }
+
+    async function getAllSongs() {
+      try { show(await callFetch('/songs')); } catch(e){ show({error: e.message}); }
+    }
+    async function getSongById() {
+      const id = document.getElementById('songIdInput').value.trim();
+      if(!id){ alert('enter id'); return; }
+      try { show(await callFetch('/songs/' + id)); } catch(e){ show({error: e.message}); }
+    }
+    async function getSongsByAlbum() {
+      const id = document.getElementById('songsByAlbumId').value.trim();
+      if(!id){ alert('enter album id'); return; }
+      try {
+        try {
+          const data = await callFetch('/songs?albumId=' + id);
+          show(data);
+          return;
+        } catch (e) {
+          const all = await callFetch('/songs');
+          show(all.filter(s => s.albumId == id));
+        }
+      } catch(e){ show({error: e.message}); }
+    }
+  </script>
+</body>
+</html>
