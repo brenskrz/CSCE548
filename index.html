@@ -20,7 +20,7 @@
   <p class="small">Change <code>API_BASE</code> to your service URL if not running on localhost.</p>
 
   <script>
-    const API_BASE = "http://localhost:8080"; // <<-- change if deployed
+    const API_BASE = "http://localhost:8080/api"; // <<-- change if deployed
     async function callFetch(path, opts) {
       const url = API_BASE + path;
       const res = await fetch(url, opts);
@@ -121,4 +121,5 @@
     }
   </script>
 </body>
+
 </html>
