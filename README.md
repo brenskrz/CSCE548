@@ -5,13 +5,21 @@ Full-Stack music database system developed for CSCE548.
 ## System Architecture
 
 AWS RDS MySQL Database
+
 ^
+
 DAO Layer
+
 ^
+
 Business Layer (Business Manager)
+
 ^
+
 Spring Boot REST API
+
 ^
+
 Client (HTML + JavaScript)
 
 ## Features
@@ -48,20 +56,29 @@ Paste this into your browser to use the database.
 
 ### Artists
 GET /api/artists
+
 GET /api/artists/{id}
+
 POST /api/artists
+
 PUT /api/artists/{id}
 
 ### Albums
 GET /api/albums
+
 GET /api/albums/{id}
+
 POST /api/albums
+
 PUT /api/albums/{id}
 
 ### Songs
 GET /api/songs
+
 GET /api/songs/{id}
+
 POST /api/songs
+
 PUT /api/songs/{id}
 
 ## Database 
