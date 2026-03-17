@@ -17,9 +17,18 @@ public class BusinessManager {
         }
         return artist;
     }
-    public void deleteArtist(int id) throws Exception { artistDAO.delete(id); }
-    public Artist getArtistById(int id) throws Exception { return artistDAO.readById(id); }
-    public List<Artist> getAllArtists() throws Exception { return artistDAO.readAll(); }
+
+    public void deleteArtist(int id) throws Exception {
+        artistDAO.delete(id);
+    }
+
+    public Artist getArtistById(int id) throws Exception {
+        return artistDAO.readById(id);
+    }
+
+    public List<Artist> getAllArtists() throws Exception {
+        return artistDAO.readAll();
+    }
 
     // ALBUM
     public Album saveAlbum(Album album) throws Exception {
@@ -30,9 +39,18 @@ public class BusinessManager {
         }
         return album;
     }
-    public void deleteAlbum(int id) throws Exception { albumDAO.delete(id); }
-    public Album getAlbumById(int id) throws Exception { return albumDAO.readById(id); }
-    public List<Album> getAllAlbums() throws Exception { return albumDAO.readAll(); }
+
+    public void deleteAlbum(int id) throws Exception {
+        albumDAO.delete(id);
+    }
+
+    public Album getAlbumById(int id) throws Exception {
+        return albumDAO.readById(id);
+    }
+
+    public List<Album> getAllAlbums() throws Exception {
+        return albumDAO.readAll();
+    }
 
     // SONG
     public Song saveSong(Song song) throws Exception {
@@ -43,7 +61,16 @@ public class BusinessManager {
         }
         return song;
     }
-    public void deleteSong(int id) throws Exception { songDAO.delete(id); }
-    public Song getSongById(int id) throws Exception { return songDAO.readById(id); }
-    public List<Song> getAllSongs() throws Exception { return songDAO.readAll(); }
+
+    public void deleteSong(int id) throws Exception {
+        songDAO.delete(id);
+    }
+
+    public Song getSongById(int id) throws Exception {
+        return songDAO.readById(id);
+    }
+
+    public List<Song> getAllSongs() throws Exception {
+        return songDAO.readAll();
+    }
 }
